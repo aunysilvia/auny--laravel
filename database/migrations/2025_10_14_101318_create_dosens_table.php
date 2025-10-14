@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaksis', function (Blueprint $table) {
-            $table->id();
-            $table->string('tittle')->unique();
-            $table->text('content');
-            $table->timestamps();
-        });
+Schema::create('dosens', function (Blueprint $table) {
+    $table->id();
+    $table->string('nama');
+    $table->string('nipd')->unique();
+    $table->timestamps();
+});
+
     }
 
     /**
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaksis');
+        Schema::dropIfExists('dosens');
     }
 };

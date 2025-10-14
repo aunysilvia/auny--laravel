@@ -1,27 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <fieldset>
-        <legend>Data posts</legend>
-        <table border="1">
-            <tr>
-                <th>no</th>
-                <th>Tittle</th>
-                <th>content</th>
-            </tr>
-            @foreach ($post as  $data)
-            <tr>
-                <th>{{ $loop->iteration }}</th>
-                <th>{{ $data->tittle }}</th>
-                <th>{{ Str::limit($data->content,100) }}</th>
-            </tr>
-            @endforeach
-        </table>
-    </fieldset>
-</body>
-</html>
+@extends('layouts.app')
+@section('content')
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <fieldset>
+                <legend>Data Post</legend>
+                <a href="{{ route('post.create') }}" class="btn btn-sm btn-primary" style="align:float-right">
+                    tambah data
+                </a>
+                <div class="table-responsive py-2">
+                    <table class="table" border="1">
+                        <tr>
+                            <th>No</th>
+                            <th>Title</th>
+                            <th>Content</th>
+                            <th>action</th>
+                        </tr>
+                        @foreach ($post as $data)
+                        <tr>
+                            <th>{{$loop->iteration}}</th>
+                            <th>{{$data->tittle}}</th>
+                            <th>{{Str::limit($data->content, 100)}}</th>
+                            <th>
+                                <form action="{{ route('post.delete',$data->id) }}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <a href="{{ route('post.edit',$data->id) }}" class="btn btn-sm btn-success">
+                                        Edit
+                                    </a>
+                                    <button type="submit" onclick="return confirm('Apakah anda yakin?')" class="btn btn-sm btn-danger">delete
+                                    </button>
+                                </form>
+                            </th>
+                        </tr>
+                        @endforeach
+                    </table>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>
+@endsection

@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaksis', function (Blueprint $table) {
-            $table->id();
-            $table->string('tittle')->unique();
-            $table->text('content');
-            $table->timestamps();
-        });
+Schema::table('mahasiswas', function (Blueprint $table) {
+    $table->unsignedBigInteger('id_dosen')->nullable();
+    $table->foreign('id_dosen')->references('id')->on('dosens')->onDelete('set null');
+});
+
     }
 
     /**
@@ -24,6 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaksis');
+        Schema::table('mahasiswas', function (Blueprint $table) {
+            //
+        });
     }
 };

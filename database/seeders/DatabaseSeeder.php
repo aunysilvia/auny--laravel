@@ -15,6 +15,6 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call(SiswaTableSeeder::class);
-
+        $this->call(RelasiTableSeeder::class);
     }
 }

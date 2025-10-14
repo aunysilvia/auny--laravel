@@ -2,6 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MyController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\RelasiController;
+use App\Models\Wali;
+use App\Models\Hobi;
+
+
+
+
+
+
  //controller harus di import / di panggil
 
 Route::get('/', function () {
@@ -41,10 +51,10 @@ route::get('book/{judul}',function($a){
     return 'judul buku :' .$a;
 });
 
-route::get('post/{title}/{kategory}',function($a,$b){
-    //compact assosiatif
-    return view('post',['judul'=>$a, 'cat' =>$b]); 
-});
+// route::get('post/{title}/{kategory}',function($a,$b){
+//     //compact assosiatif
+//     return view('post',['judul'=>$a, 'cat' =>$b]); 
+// });
 
 //route optional parameter
 //ditandai dengan tanda tanya
@@ -114,7 +124,7 @@ route::get('test-model', function(){
 route::get('create-data-post', function(){
     //membuat data baru melalui model
     $data = App\Models\Post::create([
-        'tittle'=> 'belajar php2',
+        'title'=> 'belajar php2',
         'content'=>'lorem ipsum'
     ]);
     return $data;
@@ -129,7 +139,7 @@ route::get('show-data/{id}', function($id){
 route::get('edit-data/{id}',function($id){
   //mengupdate data berdasarkan id
   $data  =App\Models\Post::find($id);
-  $data->tittle ="membangun projct dengan laravel";
+  $data->title ="membangun projct dengan laravel";
   $data->save();
   return$data;
 });
@@ -138,10 +148,35 @@ route::get('edit-data/{id}',function($id){
 route::get('greeting',[MyController::class,'hello']);
 route::get('student', [MyController::class, 'siswa']);
 
-use App\Http\Controllers\PostController;
-//post
-route::get('post',[PostController::class,'index']);
-
 Auth::routes();
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+//post
+route::get('post', [PostController::class, 'index'])->name('post.index');
+route::get('post/create', [PostController::class, 'create'])->name('post.create');
+route::post('post',[PostController::class, 'store'])->name('post.store');
+
+
+route::get('post/{id}/edit',[PostController::class,'edit'])->name('post.edit');
+route::put('post/{id}', [PostController::class, 'update'])->name('post.update');
+
+//show data post
+route::get('post/{id}',[PostController::class,'show'])->name('post.show');
+
+//hapus data
+route::delete('post/{id}',[PostController::class, 'destroy'])->name('post.delete');
+
+Route::resource('produk', App\Http\Controllers\ProdukController::class)->middleware('auth');
+
+// routes/web.php
+Route::get('/one-to-one', [RelasiController::class, 'index']);
+
+Route::get('/wali-ke-mahasiswa', function () {
+    $wali = Wali::with('mahasiswa')->first();
+    return "{$wali->nama} adalah wali dari {$wali->mahasiswa->nama}";
+});
+Route::get('/one-to-many', [RelasiController::class, 'oneToMany']);
+Route::get('/many-to-many', [RelasiController::class, 'manyToMany']);
+
+Route::get('eloquent', [RelasiController::class, 'eloquent']);
+
