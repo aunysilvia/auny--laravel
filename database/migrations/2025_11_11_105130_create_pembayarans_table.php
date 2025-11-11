@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaksis', function (Blueprint $table) {
+        Schema::create('pembayarans', function (Blueprint $table) {
             $table->id();
-            $table->string('tittle')->unique();
-            $table->text('content');
+            $table->foreignId('id_transaksi')->constrained('transaksis');
+            $table->date('tanggal_bayar');
+            $table->enum('metode_pembayaran', ['cash', 'credit', 'debit']);
+            $table->integer('jumlah_bayar');
+            $table->integer('kembalian');
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaksis');
+        Schema::dropIfExists('pembayarans');
     }
 };

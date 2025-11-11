@@ -7,40 +7,39 @@
             <div class="card">
                 <div class="card-header">
                     <div class="float-start">
-                        {{ __('produk') }}
+                        {{ __('Mahasiswa') }}
                     </div>
                     <div class="float-end">
-                        <a href="{{ route('produk.create') }}" class="btn btn-sm btn-outline-primary">Tambah Data</a>
+                        <a href="{{ route('mahasiswa.create') }}" class="btn btn-sm btn-outline-primary">Tambah Data</a>
                     </div>
                 </div>
 
-                <div class="card-body">
+                <div class="card=body">
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Nama Produk</th>
-                                    <th>Harga</th>
-                                    <th>Stok</th>
-
+                                    <th>Nama Mahasiswa</th>
+                                    <th>No Induk Mahasiswa</th>
+                                    <th>Nama Dosen</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php $no = 1; @endphp
-                                @forelse ($produk as $data)
+                                @forelse ($mahasiswa as $data)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $data->nama_produk }}</td>
-                                    <td>{!! $data->harga !!}</td>
-                                    <td>{{ $data->stok}}</td>
+                                    <td>{{ $data->nama }}</td>
+                                    <td>{{ $data->nim }}</td>
+                                    <td>{{ $data->dosen->nama }}</td>
                                     <td>
-                                        <form action="{{ route('produk.destroy', $data->id) }}" method="POST">
+                                        <form action="{{ route('mahasiswa.destroy', $data->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <a href="{{ route('produk.show', $data->id) }}" class="btn btn-sm btn-outline-dark">Show</a> |
-                                            <a href="{{ route('produk.edit', $data->id) }}" class="btn btn-sm btn-outline-success">Edit</a> |
+                                            <a href="{{ route('mahasiswa.show', $data->id) }}" class="btn btn-sm btn-outline-dark">Show</a> |
+                                            <a href="{{ route('mahasiswa.edit', $data->id) }}" class="btn btn-sm btn-outline-success">Edit</a> |
                                             <button type="submit" onsubmit="return confirm('Are You Sure ?');" class="btn btn-sm btn-outline-danger">Delete</button>
                                         </form>
                                     </td>
@@ -48,13 +47,12 @@
                                 @empty
                                 <tr>
                                     <td colspan="6" class="text-center">
-                                        Data data belum Tersedia.
+                                        Data belum Tersedia
                                     </td>
-                                </tr>
+                                </tr>  
                                 @endforelse
                             </tbody>
                         </table>
-                        {!! $produk->withQueryString()->links('pagination::bootstrap-4') !!}
                     </div>
                 </div>
             </div>
